@@ -1,5 +1,5 @@
 require 'jekyll_asset_pipeline'
-
+require 'compass'
 module JekyllAssetPipeline
 
   # process SCSS files
