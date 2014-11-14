@@ -24,7 +24,7 @@ angular.module('WebGLProject.services').
         @vertexNormalsBuffer = null
         @vertexIndexBuffer = null
         @xPos = 0
-        @yPos = 0
+        @yPos = 1
         @zPos = 0
         @xRot = 0
         @yRot = 0
@@ -52,7 +52,7 @@ angular.module('WebGLProject.services').
       draw: (matrices) ->
         @context.useProgram(@shader.program)
 
-        translationVector = [@xPos, @yPos, @zPos]
+        translationVector = [-@xPos, @zPos, @yPos]
         mat4.translate(matrices.mv, matrices.mv, translationVector)
 
         mat4.rotateX(matrices.mv, matrices.mv, degToRad(@xRot))
@@ -119,44 +119,37 @@ angular.module('WebGLProject.services').
     class Cube extends Drawable
       constructor: ->
         super('#cube_object')
-        @zPos = 1
         @n = "Cube"
         @color = [0.9495, 0.3552, 0.0417, 1.0]
     class Pyramid extends Drawable
       constructor: ->
         super('#pyramid_object')
-        @zPos = 1
         @xRot = 90
         @n = 'Piramid'
         @color = [0.0000, 0.2107, 0.9495, 1.0]
     class Sphere extends Drawable
       constructor: ->
         super('#sphere_object')
-        @zPos=1
         @n = 'Sphere'
         @color = [0.3477, 0.2305, 0.1192, 1.0]
     class Cone extends Drawable
       constructor: ->
         super('#cone_object')
-        @zPos=1
         @n = 'Cone'
         @color = [0.3477, 0.2305, 0.1192, 1.0]
     class IcoSphere extends Drawable
       constructor: ->
         super('#icosphere_object')
-        @zPos=1
         @n = 'IcoSphere'
         @color = [0.3477, 0.2305, 0.1192, 1.0]
     class Cylinder extends Drawable
       constructor: ->
         super('#cylinder_object')
-        @zPos=1
         @n = 'Cylinder'
         @color = [0.3477, 0.2305, 0.1192, 1.0]
     class Torus extends Drawable
       constructor: ->
         super('#torus_object')
-        @zPos=1
         @n = 'Torus'
         @color = [0.3477, 0.2305, 0.1192, 1.0]
 

@@ -46,6 +46,7 @@ angular.module('WebGLProject.services').
       CameraService.initialize(@pMatrix)
       CameraService.perspective()
       @floor = ObjectCreationService.createObject('plane')
+      @floor.yPos = 0
 
       @
     @service.draw = () =>
