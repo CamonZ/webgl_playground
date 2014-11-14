@@ -1,0 +1,129 @@
+---
+layout: default
+title: WebGL Project
+---
+section.container ng-controller='ApplicationController'
+  section#scene_container.row
+    section#objects_management.side_panels.col-md-2
+      .objectsContainer
+        ul.buttons.objects sgi-add-object-to-canvas-directive=''
+          li#add_pyramid.button
+            | Pyramid
+          li#add_cube.button
+           | Cube
+          li#add_sphere.button
+           | Sphere
+          li#add_cone.button
+           | Cone
+          li#add_icosphere.button
+           | IcoSphere
+          li#add_cylinder.button
+           | Cylinder
+          li#add_torus.button
+           | Torus
+    section.col-md-8
+      canvas#scene_canvas sgi-canvas-directive=''
+    section#scene_navigation.side_panels.col-md-2
+      .objectsContainer
+        ul.objects_in_scene
+
+  section#camera_controls.row
+    ul#camera_types.buttons.col-md-4.col-md-offset-4
+      li ng-repeat='type in cameraTypes' ng-class='{button: true, active: isActiveCamera(type)}' ng-click='setCameraType(type)'
+        | {(type)}
+    #camera_zoom
+
+  section.row collapse='status.isObjectControlCollapsed'
+    tabset.container
+      tab heading='Basic'
+        #object_controls.col-md-12
+          section#position_controls.col-md-4
+            h3
+              | Position
+            .form-horizontal.row
+              label.col-sm-4.col-sm-offset-2.control-label X
+              .col-sm-4
+                input.form-control type='number' ng-model='drawable.xPos'
+            .form-horizontal.row
+              label.col-sm-4.col-sm-offset-2.control-label Y
+              .col-sm-4
+                input.form-control type='number' ng-model='drawable.yPos'
+            .form-horizontal.row
+              label.col-sm-4.col-sm-offset-2.control-label Z
+              .col-sm-4
+                input.form-control type='number' ng-model='drawable.zPos'
+          section#rotation_controls.col-md-4
+            h3
+              | Rotation
+            .form-horizontal.row
+              label.col-sm-4.col-sm-offset-2.control-label X
+              .col-sm-4
+                input.form-control type='number' ng-model='drawable.xRot'
+            .form-horizontal.row
+              label.col-sm-4.col-sm-offset-2.control-label Y
+              .col-sm-4
+                input.form-control type='number' ng-model='drawable.yRot'
+            .form-horizontal.row
+              label.col-sm-4.col-sm-offset-2.control-label Z
+              .col-sm-4
+                input.form-control type='number' ng-model='drawable.zRot'
+          section#extras_control.col-md-4
+            h3
+              | Extra
+            .form-horizontal.row
+              label.col-sm-4.col-sm-offset-2.control-label Name
+              .col-sm-4
+                input.form-control type='text' ng-model='drawable.n'
+            .form-horizontal.row
+              label.col-sm-4.col-sm-offset-2.control-label Size
+              .col-sm-4
+                input.form-control type='number' ng-model='drawable.scaleF'
+      tab heading='Shader'
+        #object_controls.col-md-12
+          section#shading_type_control.col-md-3
+            h3
+              | Type
+            .form-horizontal.row
+              .col-sm-4.col-sm-offset-2
+                .btn-group dropdown='' is-open='status.isShaderDropDownOpen'
+                  button.btn.btn-primary.btn-sm.dropdown-toggle ng-disabled='disabled' type='button'
+                    | {(drawable.shaderName)}
+                  ul.dropdown-menu role='menu'
+                    li.shaderNames ng-repeat='(shaderType, name) in shaderTypes'
+                      a href="#" id='{(shaderType)}' ng-click='shaderSwitch($event)' {(name)}
+          section#shading_color_control.col-md-3
+            h3
+              | Color
+            .form-horizontal.row ng-show="drawable.shaderType == 'stripes'"
+              label.col-sm-4.col-sm-offset-2.control-label for='' Stripe 1
+              .col-sm-4
+                button colorpicker='rgba' type='button' class='btn btn-primary btn-sm'ng-model='drawable.firstColor'
+                  | Change
+            .form-horizontal.row ng-show="drawable.shaderType == 'stripes'"
+              label.col-sm-4.col-sm-offset-2.control-label for='' Stripe 2
+              .col-sm-4
+                button colorpicker='rgba' type='button' class='btn btn-primary btn-sm'ng-model='drawable.secondColor'
+                  | Change
+            .form-horizontal.row ng-hide="drawable.shaderType == 'stripes'"
+              .col-sm-4.col-sm-offset-2
+                button colorpicker='rgba' type='button' class='btn btn-primary btn-sm'ng-model='drawable.color'
+                  | Change
+          section#shading_stripes_direction_control.col-md-3 ng-show="drawable.shaderType == 'stripes'"
+            h3
+              | Direction
+            .form-horizontal.row
+              .col-sm-8.col-sm-offset-2
+                .btn-group
+                  label.btn.btn-primary.btn-sm ng-model='drawable.horizontalStripes' btn-radio="true" Horizontal
+                  label.btn.btn-primary.btn-sm ng-model='drawable.horizontalStripes' btn-radio="false" Vertical
+          section#shading_stripes_size_control.col-md-3 ng-show="drawable.shaderType == 'stripes'"
+            h3
+              | Stripes Size
+            .form-horizontal.row
+              label.col-sm-4.control-label for='' Gap Size
+              .col-sm-4
+                  input type='number' class='form-control' ng-model='drawable.gapSize'
+            .form-horizontal.row
+              label.col-sm-4.control-label for='' Stripe Width
+              .col-sm-4
+                  input type='number' class='form-control' ng-model='drawable.stripeWidth'

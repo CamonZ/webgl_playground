@@ -1,0 +1,13 @@
+name: SGI WebGL Project 
+markdown: redcarpet
+pygments: true
+
+asset_pipeline:
+  bundle: true
+  compress: false
+  output_path: assets
+  display_path: nil
+  gzip: false
+
+source: ./src
+destination: ./build

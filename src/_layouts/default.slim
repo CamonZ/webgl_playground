@@ -1,0 +1,92 @@
+doctype html
+html
+  head
+    meta charset="utf-8"
+    meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"
+    title
+      | {{ page.title }}
+    meta name="viewport" content="width=device-width"
+
+    | {% css_asset_tag global_css %}
+      - /_assets/css/app.scss
+    | {% endcss_asset_tag %}
+
+    | {% css_asset_tag colorpicker %}
+      - /_assets/css/colorpicker.css
+    | {% endcss_asset_tag %}
+
+
+    
+    | {% include shaders/goraudLambertian-vs.essl %}
+    | {% include shaders/goraudLambertian-fs.essl %}
+    | {% include shaders/solidGrey-fs.shader %}
+    | {% include shaders/stripes-fs.essl %}
+    | {% include shaders/vertex-shader.shader %}
+
+
+    | {% include objects/plane.obj %}
+    | {% include objects/cube.obj %}
+    | {% include objects/pyramid.obj %}
+    | {% include objects/sphere.obj %}
+    | {% include objects/cone.obj %}
+    | {% include objects/icosphere.obj %}
+    | {% include objects/cylinder.obj %}
+    | {% include objects/torus.obj %}
+
+    | {% javascript_asset_tag jquery.min %}
+      - /_assets/js/jquery.min.js
+    | {% endjavascript_asset_tag %}
+    | {% javascript_asset_tag angular.min %}
+      - /_assets/js/angular.min.js
+    | {% endjavascript_asset_tag %}
+    | {% javascript_asset_tag angular-animate.min %}
+      - /_assets/js/angular-animate.min.js
+    | {% endjavascript_asset_tag %}
+    | {% javascript_asset_tag ui-bootstrap %}
+      - /_assets/js/ui-bootstrap-0.11.2.js
+    | {% endjavascript_asset_tag %}
+
+    | {% javascript_asset_tag hamster %}
+      - /_assets/js/hamster.js
+    | {% endjavascript_asset_tag %}
+
+    | {% javascript_asset_tag gl-matrix-min %}
+      - /_assets/js/gl-matrix-min.js
+    | {% endjavascript_asset_tag %}
+
+    | {% javascript_asset_tag webgl-obj-loader %}
+      - /_assets/js/webgl-obj-loader.js
+    | {% endjavascript_asset_tag %}
+
+    | {% javascript_asset_tag bootstrap-colorpicker %}
+      - /_assets/js/bootstrap-colorpicker-module.js
+    | {% endjavascript_asset_tag %}
+
+    | {% javascript_asset_tag application %}
+      - /_assets/js/services/canvasService.coffee
+      - /_assets/js/services/cameraService.coffee
+      - /_assets/js/services/shadersService.coffee
+      - /_assets/js/services/objectCreationService.coffee
+      - /_assets/js/services/sceneService.coffee
+      - /_assets/js/directives/sgiCanvasDirective.coffee
+      - /_assets/js/directives/sgiAddObjectToCanvasDirective.coffee
+      - /_assets/js/directives/sgiObjectDirective.coffee
+      - /_assets/js/controllers/applicationController.coffee
+      - /_assets/js/app.coffee
+    | {% endjavascript_asset_tag %}
+
+
+  body ng-app='WebGLProject'
+    header.container
+      h1.title
+        a href="/"
+        | {{ site.name }}
+    | {{ content }}
+    section.container
+      .footer
+        .contact
+          p Rafael Simon Garcia Rodriguez
+        .contact
+          p
+            a href="https://github.com/camonz" github.com/camonz
+            a href="https://twitter.com/camonz" twitter.com/camonz

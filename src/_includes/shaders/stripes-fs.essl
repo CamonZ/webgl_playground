@@ -1,0 +1,22 @@
+<script id='stripes-fs' type="x-shader/x-fragment">
+  #ifdef GL_ES
+    precision mediump float;
+  #endif
+
+  uniform vec4 uFirstColor;
+  uniform vec4 uSecondColor;
+  uniform bool uHorizontalStripes;
+  uniform vec2 uGapSize;
+  uniform float uStripeWidth;
+
+  void main( void ) {
+    vec2 res = mod(gl_FragCoord.xy, uGapSize);
+    
+    if(uHorizontalStripes){
+      gl_FragColor = res.y < uStripeWidth ? uFirstColor : uSecondColor;
+    }
+    else{
+      gl_FragColor = res.x < uStripeWidth ? uFirstColor : uSecondColor;
+    }
+  }
+</script>
