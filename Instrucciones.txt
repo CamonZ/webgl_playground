@@ -1,0 +1,96 @@
+El archivo html con la aplicacion esta en build/index.html.
+
+
+El panel de la izquierda titulado Add To Scene contiene varias primitivas graficas que al 
+clickearse pueden ser agregadas a la escena.
+
+El panel central es la escena rendereada. Esta se puede rotar con el drag del raton y se 
+puede hacer zoom por medio de la rueda de scroll del rato.
+
+Inmediatamente debajo del panel central se encuentran los controls del tipo de proyeccion usada.
+Tanto una proyeccion de perspectiva como una proyeccion ortografica, por defecto la aplicacion
+usa una proyeccion perspectiva, al clickear el boton de 'orthographic' se cambia a una proyeccion
+ortografica.
+
+El panel de la derecha contiene las primitivas rendereadas actualmente en la escena. 
+Al clickear cualquiera de los botones de las primitivas en el panel de la derecha se activa 
+el panel de edicion de dichas primitiva. Finalmente al clickear sobre el icono de eliminar de 
+cualquiera de las primitivas en escena, ésta se elimina de los objetos rendereados.
+
+
+El panel de edicion de una primitiva grafica aparece debajo de la escena una vez una primitiva 
+ha sido seleccionada, dicho panel contiene dos tabs: 
+  
+  * El primer tab permite la variacion de parametros como coordenadas X/Y/Z de la primitiva en 
+    el mundo, su rotacion en grados con respecto a los ejes X/Y/Z, su tamaño y su nombre; al 
+    cambiar cualquier parametro en el panel de edición se redibuja la escena con los cambios 
+    aplicados.
+
+    Un cambio en el nombre de una primitiva se refleja en el panel de la derecha donde se 
+    seleccionan las distintas primitivas rendereadas en escena.
+
+
+  * El segundo tab permite la seleccion del shader a usar al pintar la primitiva seleccionada. 
+    La Aplicacion contiene tres shaders:
+      
+      * Goraud-Lambert: Modelo de iluminacion de Goraud Lambert, es el shader por defecto. 
+        Solo tiene activado desde la interfaz el variar el valor 'diffuse' del material usado 
+        en la primtiva.
+      
+      * Basic: Este shader aplica un color solido a toda la primitiva, se puede cambiar el 
+        color usado.
+
+      *Stripes: Es el fragment shader que se pide en el enunciado. Permite la variación en la 
+        seleccion del color de cada una de las franjas, la direccion vertical u horizontal
+        de las mismas y el tamaño de cada una de las franjas al variar los valores de GapSize y
+        StripeWidth.
+
+Las plantillas usadas para generar el codigo html de la aplicacion son:
+  - src/_layouts/default.slim: layout principal, headers de html e inclusion de librerias
+  - src/index.slim: layout de la vista, configuracion de los distintos paneles, etc.
+
+El codigo de la aplicacion esta en la carpeta src/_assets/js/ Estos archivos son:
+
+  - src/_assets/js/app.coffee
+  - src/_assets/js/controllers/applicationController.coffee
+  - src/_assets/js/directives/*.coffee
+  - src/_assets/js/services/*.coffee
+
+El resto de los archivos que no estan en esta lista son librerias de terceros que la aplicacion usa.
+
+src/_assets/js/app.coffee:
+  Archivo de inicializacion, configuracion y carga de modulos de la aplicacion.
+
+src/_assets/js/controllers/applicationController.coffee
+  Controlador de la aplicacion, fija valores para la vista. 
+
+src/_assets/js/directives/sgiCanvasDirective.coffee
+  Directiva de Angular donde se atan los distintos eventos de html que se disparan en el canvas
+
+src/_assets/js/directives/sgiAddObjectToCanvasDirective.coffee
+  Directiva que maneja el click de los botones de agregar un objeto a la escena.
+
+src/_assets/js/directives/sgiObjectDirective.coffee
+  Directiva que maneja la interaccion de los botones del panel de objetos rendereados en escena asi como el fijar 
+  en el ApplicationController el objeto seleccionado.
+
+src/_assets/js/services/sceneService.coffee
+  Servicio de Angular que maneja la escena, contiene el codigo para agregar/eliminar/actualizar objetos dibujables 
+  en la escena, fijar el OBS y los angulos de rotacion de Euler de la escena en el ciclo principal de dibujado, 
+  contiene ademas las matrices de modelView y projeccion de la escena.
+
+src/_assets/js/services/canvasService.coffee
+  Servicio donde se hace la inicializacion del canvas y el contexto webgl.
+
+src/_assets/js/services/cameraService.coffee
+  Servicio donde se hacen las transformaciones del tipo de proyeccion y zoom de la aplicacion.
+
+src/_assets/js/services/objectCreationService.coffee
+  Creacion de objetos dibujables. La clase Drawable contiene el codigo usado para dibujar cada primitiva, 
+  el codigo para cargar los vertices/caras/normales de cada dibujable desde un .obj, el codigo para
+  cargar y atar los buferes de los objetos a ser dibujados y el codigo para serializar y deserializar un
+  objeto dibujable cuando es usado por el ApplicationController.
+
+src/_assets/js/services/shadersService.coffee
+  Declaracion de los tres programas de shading que usa la aplicacion y compilacion de los distintos scripts de shaders.
+  

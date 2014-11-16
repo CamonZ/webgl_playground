@@ -8,7 +8,6 @@ angular.module('WebGLProject.controllers', []).controller(
     $scope.activeCameraType = $scope.cameraTypes[0]
     $scope.primitiveTypes = ObjectCreationService.getPrimitiveTypes()
 
-
     $scope.drawable = null
     $scope.shaderTypes = ShadersService.getShaderNames()
     $scope.status = {}
