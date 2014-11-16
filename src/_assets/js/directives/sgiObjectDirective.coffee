@@ -4,7 +4,7 @@ angular.module('WebGLProject.directives').
       restrict: 'EA',
       transclude: true,
       replace: true,
-      template: "<li class='object_navigation'><button type='button' class='close'><span aria-hidden='true'>&times;</span><span class='sr-only'>Close</span></button><p><ng-transclude></ng-transclude></p></li>",
+      template: "<button class='btn btn-default btn-sm btn-block' type='button'><span class='glyphicon glyphicon-remove-sign pull-left'></span><ng-transclude></ng-transclude></button>",
       link: (scope, element, attributes) ->
 
         toggleObjectControl = ->
@@ -22,7 +22,7 @@ angular.module('WebGLProject.directives').
           scope.$apply()
           @
         
-        $(element).find("button.close").click (eventData) ->
+        $(element).find("span.glyphicon-remove-sign").click (eventData) ->
           eventData.preventDefault()
           eventData.stopPropagation()
           SceneService.removeDrawable(element[0].id.trim())

@@ -29,7 +29,7 @@ angular.module('WebGLProject.controllers', []).controller(
       @
     watchFunc = (newVal, oldVal) -> 
       if newVal?
-        $("li##{(newVal.id)}").find("p span").text(newVal.n)
+        $("button##{(newVal.id)} span.ng-scope").text(newVal.n)
         SceneService.updateDrawable(newVal)
       @
 

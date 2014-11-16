@@ -11,8 +11,8 @@ angular.module('WebGLProject.directives').
           object = ObjectCreationService.createObject(type)
           SceneService.addDrawable(object)
 
-          objectTag = '<sgi-object-directive id="'+object.id+'" n="'+object.n+'">'+object.n+'</sgi-object-directive>'
-          $("#scene_navigation ul.objects_in_scene").append($compile(objectTag)(scope.$parent))
+          objectTag = '<sgi-object-directive id="'+object.id+'" n="'+object.n+'"> '+object.n+'</sgi-object-directive>'
+          $("#scene_navigation .objectsContainer").append($compile(objectTag)(scope.$parent))
           
           #delete scope.$parent.printable
         )
