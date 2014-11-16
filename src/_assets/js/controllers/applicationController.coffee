@@ -1,12 +1,13 @@
 angular.module('WebGLProject.controllers', []).controller(
-  'ApplicationController', ['$scope', '$rootScope', 'SceneService', 'ShadersService', ($scope, $rootScope, SceneService, ShadersService) ->
+  'ApplicationController', ['$scope', '$rootScope', 'SceneService', 'ShadersService', 'ObjectCreationService', ($scope, $rootScope, SceneService, ShadersService, ObjectCreationService) ->
     
     SceneService.initScene()
     SceneService.draw()
 
     $scope.cameraTypes = ['perspective', 'orthographic']
     $scope.activeCameraType = $scope.cameraTypes[0]
-    
+    $scope.primitiveTypes = ObjectCreationService.getPrimitiveTypes()
+
 
     $scope.drawable = null
     $scope.shaderTypes = ShadersService.getShaderNames()

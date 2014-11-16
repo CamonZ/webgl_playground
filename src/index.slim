@@ -7,22 +7,9 @@ section.container ng-controller='ApplicationController'
     section#objects_management.side_panels.col-md-2
       h4
         | Add to Scene
-      .objectsContainer
-        ul.buttons.objects sgi-add-object-to-canvas-directive=''
-          li#add_pyramid.button
-            | Pyramid
-          li#add_cube.button
-           | Cube
-          li#add_sphere.button
-           | Sphere
-          li#add_cone.button
-           | Cone
-          li#add_icosphere.button
-           | IcoSphere
-          li#add_cylinder.button
-           | Cylinder
-          li#add_torus.button
-           | Torus
+      .objectsContainer 
+          button.btn.btn-success.btn-sm.btn-block.capitalize sgi-add-object-to-canvas-directive='' id='add_{(type)}' ng-repeat='type in primitiveTypes'
+            | {(type)}
     section.col-md-8
       canvas#scene_canvas sgi-canvas-directive=''
     section#scene_navigation.side_panels.col-md-2

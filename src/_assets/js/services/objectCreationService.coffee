@@ -217,6 +217,16 @@ angular.module('WebGLProject.services').
 
     @service.createObject = (type, program) =>
       return new @Drawables[type](program)
-
+    @service.getPrimitiveTypes = ->
+      return [
+        'plane',
+        'cube',
+        'pyramid',
+        'sphere',
+        'cone',
+        'icosphere',
+        'cylinder',
+        'torus'
+      ]
     return @service
   )

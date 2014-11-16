@@ -13,15 +13,12 @@ angular.module('WebGLProject.directives').
           else unless scope.drawable?
             scope.status.isObjectControlCollapsed = true
 
-
         $(element).click (eventData) ->
           $(element).siblings().removeClass('active')
           $(element).toggleClass('active')
           drawable = if $(element).hasClass('active') then SceneService.getDrawable(element[0].id.trim()) else null
-          scope.drawable = drawable
-          
+          scope.$parent.drawable = drawable
           toggleObjectControl()
-          
           scope.$apply()
           @
         
@@ -31,7 +28,7 @@ angular.module('WebGLProject.directives').
           SceneService.removeDrawable(element[0].id.trim())
           
           if $(element).hasClass('active')
-            scope.drawable = null
+            scope.$parent.drawable = null
 
           $(element).remove()
 
