@@ -93,6 +93,7 @@ body {
 }
 
 .side_panels{
+  overflow-y: scroll; 
   .objectsContainer{
     height: 100%;
     position: relative;
