@@ -40,7 +40,7 @@ angular.module('WebGLProject.services').
         @firstColor = [1, 0, 0, 1]
         @secondColor = [0, 0, 1, 1]
         @horizontalStripes = true
-        @gapSize = [50, 50]
+        @gapSize = 50.0
         @stripeWidth = 25.0
 
         mesh = OBJ.Mesh($(objId).text())
@@ -107,7 +107,58 @@ angular.module('WebGLProject.services').
         @context.bindBuffer(ARRAY_BUFFER, null)
         @context.bindBuffer(ELEMENT_ARRAY_BUFFER, null)
       serialize: ->
+        return { 
+          id: @id,
+          xPos: @xPos,
+          yPos: @yPos,
+          zPos: @zPos,
+          xRot: @xRot,
+          yRot: @yRot,
+          zRot: @zRot,
+          scaleF: @scaleF,
+          n: @n,
+          color: @serializeColor(@color),
+          firstColor: @serializeColor(@firstColor),
+          secondColor: @serializeColor(@secondColor),
+          horizontalStripes: @horizontalStripes,
+          gapSize: @gapSize,
+          stripeWidth: @stripeWidth,
+          shaderName: @shader.name,
+          shaderType: @shader.type 
+        }
+      deserialize: (obj) ->
+        for colorAttribute in ['color', 'firstColor', 'secondColor']
+          @[colorAttribute] = @deserializeColor(obj[colorAttribute])
+        for attribute in [ 'xPos', 'yPos', 'zPos', 
+                           'xRot', 'yRot', 'zRot', 
+                           'scaleF', 'n', 'horizontalStripes',
+                           'gapSize', 'stripeWidth'
+                         ]
+          @[attribute] = obj[attribute]
+        @shader = ShadersService.getShader(obj.shaderType)
         @
+      serializeColor: (color) ->
+        str = ""
+        for idx in [0..color.length-2]
+          str += parseInt(color[idx]*255).toString() + ","
+        str += color[3].toString()
+        return "rgba("+str+")"
+      deserializeColor: (str) ->
+        parse = (values) ->
+          `var i;
+           for(i=0; i< values.length; i++)
+             values[i] = parseFloat(values[i]);
+          `
+          values
+        normalize = (values) ->
+          rgbValues = values.slice(values.length - 1) 
+          `var i;
+           for(i=0; i< values.length-1; i++)
+            values[i] = values[i] / 255
+          `
+          values
+        matches = /rgba\((\d+),(\d+),(\d+),(\d*\.?\d+)\)/.exec(str).slice(1)
+        return normalize(parse(matches))
     class Plane extends Drawable
       constructor: ->
         super('#plane_object')

@@ -120,7 +120,7 @@ angular.module('WebGLProject.services').
         glContext.uniform4fv(@program.uFirstColor, drawable.firstColor)
         glContext.uniform4fv(@program.uSecondColor, drawable.secondColor)
         glContext.uniform1i(@program.uHorizontalStripes, drawable.horizontalStripes)
-        glContext.uniform2fv(@program.uGapSize, drawable.gapSize)
+        glContext.uniform2fv(@program.uGapSize, [drawable.gapSize, drawable.gapSize])
         glContext.uniform1f(@program.uStripeWidth, drawable.stripeWidth)
         @
     compileShaders()

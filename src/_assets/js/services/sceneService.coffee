@@ -91,52 +91,9 @@ angular.module('WebGLProject.services').
       @service.draw()
       @
     @service.getDrawable = (id) =>
-      d = @drawables[id]
-      str = ""
-      
-      for idx in [0..d.color.length-2]
-        str += parseInt(d.color[idx]*255).toString() + ","
-      
-      str += d.color[3].toString()
-      
-      r = {
-        id: d.id
-        xPos: d.xPos, 
-        yPos: d.yPos, 
-        zPos: d.zPos,
-        xRot: d.xRot, 
-        yRot: d.yRot, 
-        zRot: d.zRot,
-        scaleF: d.scaleF, 
-        n: d.n,
-        color: "rgba("+str+")"
-        shaderName: d.shader.name,
-        shaderType: d.shader.type
-      }
-      return r
+      @drawables[id].serialize()
     @service.updateDrawable = (obj) =>
-      parseValues = (values) ->
-        `var i;
-         for(i=0; i< values.length; i++)
-           values[i] = parseFloat(values[i]);
-        `
-        values
-      normalizeValues = (values) ->
-        rgbValues = values.slice(values.length - 1) 
-        `var i;
-         for(i=0; i< values.length-1; i++)
-          values[i] = values[i] / 255
-        `
-        values
-
-      for attribute in ['xPos', 'yPos', 'zPos', 'xRot', 'yRot', 'zRot', 'scaleF', 'n', 'color']
-        if attribute is 'color' and obj['color'].split isnt undefined
-          color = obj['color']
-          matches = /rgba\((\d+),(\d+),(\d+),(\d*\.?\d+)\)/.exec(color).slice(1)
-          obj['color'] = normalizeValues(parseValues(matches))
-          console.log(obj['color'])
-        @drawables[obj.id][attribute] = obj[attribute]
-      @drawables[obj.id].shader = ShadersService.getShader(obj.shaderType)
+      @drawables[obj.id].deserialize(obj)
       @service.draw()
       @
     @service.zoomCamera = (step) =>

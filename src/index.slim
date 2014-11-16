@@ -5,6 +5,8 @@ title: WebGL Playground
 section.container ng-controller='ApplicationController'
   section#scene_container.row
     section#objects_management.side_panels.col-md-2
+      h4
+        | Add to Scene
       .objectsContainer
         ul.buttons.objects sgi-add-object-to-canvas-directive=''
           li#add_pyramid.button
@@ -24,15 +26,18 @@ section.container ng-controller='ApplicationController'
     section.col-md-8
       canvas#scene_canvas sgi-canvas-directive=''
     section#scene_navigation.side_panels.col-md-2
+      h4
+        | Objects Rendered
       .objectsContainer
         ul.objects_in_scene
 
-  section#camera_controls.row
-    ul#camera_types.buttons.col-md-4.col-md-offset-4
-      li ng-repeat='type in cameraTypes' ng-class='{button: true, active: isActiveCamera(type)}' ng-click='setCameraType(type)'
-        | {(type)}
-    #camera_zoom
-
+  section#camera_controls.form-horizontal.row
+    .col-md-4.col-md-offset-4
+      h4
+        | Camera Type
+      .btn-group dropdown=''
+        button.btn.btn-primary.btn-sm ng-class='{button: true, active: isActiveCamera(type)}' ng-click='setCameraType(type)' ng-repeat='type in cameraTypes'
+          | {(type)}
   section.row collapse='status.isObjectControlCollapsed'
     tabset.container
       tab heading='Basic'
