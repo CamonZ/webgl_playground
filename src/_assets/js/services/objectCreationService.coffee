@@ -2,7 +2,7 @@ angular.module('WebGLProject.services').
   factory('ObjectCreationService', (CanvasService, ShadersService) ->
     @service = {}
     glContext = CanvasService.glContext()
-    
+
     ARRAY_BUFFER = glContext.ARRAY_BUFFER
     STATIC_DRAW = glContext.STATIC_DRAW
     ELEMENT_ARRAY_BUFFER = glContext.ELEMENT_ARRAY_BUFFER
@@ -10,8 +10,8 @@ angular.module('WebGLProject.services').
     UNSIGNED_SHORT = glContext.UNSIGNED_SHORT
     TRIANGLES = glContext.TRIANGLES
 
-    
-    
+
+
     degToRad = (degrees) =>
       return degrees * Math.PI / 180
 
@@ -30,7 +30,7 @@ angular.module('WebGLProject.services').
         @yRot = 0
         @zRot = 0
         @scaleF = 1
-        
+
         #params for goraud-lambert shader
         @color = [1, 1, 1, 1]
         @lightDirection = [0.0, -1.0, -1.0]
@@ -58,13 +58,16 @@ angular.module('WebGLProject.services').
         mat4.rotateX(matrices.mv, matrices.mv, degToRad(@xRot))
         mat4.rotateY(matrices.mv, matrices.mv, degToRad(@yRot))
         mat4.rotateZ(matrices.mv, matrices.mv, degToRad(@zRot))
-        
-        mat4.scale(matrices.mv, matrices.mv, [@scaleF, @scaleF, @scaleF])
-        
+
+        if(@scaleFX? && @scaleFY? && @scaleFZ?)
+          mat4.scale(matrices.mv, matrices.mv, [@scaleFX, @scaleFY, @scaleFZ])
+        else
+          mat4.scale(matrices.mv, matrices.mv, [@scaleF, @scaleF, @scaleF])
+
         @shader.setMatrixUniforms(matrices)
-        
+
         @shader.setDrawableUniforms(this)
-        
+
         if @shader.hasNormals
           @shader.setLightValues()
 
@@ -73,8 +76,8 @@ angular.module('WebGLProject.services').
           mat4.transpose(matrices.n, matrices.n)
 
           glContext.uniformMatrix4fv(
-            @shader.program.nMatrixUniform, 
-            false, 
+            @shader.program.nMatrixUniform,
+            false,
             matrices.n)
 
         @context.bindBuffer(ARRAY_BUFFER, @vertexPositionBuffer)
@@ -83,7 +86,7 @@ angular.module('WebGLProject.services').
         if @shader.hasNormals
           @context.bindBuffer(ARRAY_BUFFER, @vertexNormalsBuffer)
           @context.vertexAttribPointer(@shader.vertexNormal(), 3, FLOAT, false, 0, 0)
-          
+
         @context.bindBuffer(ELEMENT_ARRAY_BUFFER, @vertexIndexBuffer)
         @context.drawElements(TRIANGLES, @faces.length, UNSIGNED_SHORT, 0)
 
@@ -91,7 +94,7 @@ angular.module('WebGLProject.services').
         @context.bindBuffer(ELEMENT_ARRAY_BUFFER, null)
       setBuffers: ->
         if not @vertexPositionBuffer?
-          @vertexPositionBuffer = @context.createBuffer() 
+          @vertexPositionBuffer = @context.createBuffer()
         @context.bindBuffer(ARRAY_BUFFER, @vertexPositionBuffer)
         @context.bufferData(ARRAY_BUFFER, new Float32Array(@vertices), STATIC_DRAW)
 
@@ -101,13 +104,13 @@ angular.module('WebGLProject.services').
           @context.bufferData(ARRAY_BUFFER, new Float32Array(@normals), STATIC_DRAW)
 
         if not @vertexIndexBuffer?
-          @vertexIndexBuffer = @context.createBuffer() 
+          @vertexIndexBuffer = @context.createBuffer()
         @context.bindBuffer(ELEMENT_ARRAY_BUFFER, @vertexIndexBuffer)
         @context.bufferData(ELEMENT_ARRAY_BUFFER, new Uint16Array(@faces), STATIC_DRAW)
         @context.bindBuffer(ARRAY_BUFFER, null)
         @context.bindBuffer(ELEMENT_ARRAY_BUFFER, null)
       serialize: ->
-        return { 
+        return {
           id: @id,
           xPos: @xPos,
           yPos: @yPos,
@@ -124,13 +127,13 @@ angular.module('WebGLProject.services').
           gapSize: @gapSize,
           stripeWidth: @stripeWidth,
           shaderName: @shader.name,
-          shaderType: @shader.type 
+          shaderType: @shader.type
         }
       deserialize: (obj) ->
         for colorAttribute in ['color', 'firstColor', 'secondColor']
           @[colorAttribute] = @deserializeColor(obj[colorAttribute])
-        for attribute in [ 'xPos', 'yPos', 'zPos', 
-                           'xRot', 'yRot', 'zRot', 
+        for attribute in [ 'xPos', 'yPos', 'zPos',
+                           'xRot', 'yRot', 'zRot',
                            'scaleF', 'n', 'horizontalStripes',
                            'gapSize', 'stripeWidth'
                          ]
@@ -151,7 +154,7 @@ angular.module('WebGLProject.services').
           `
           values
         normalize = (values) ->
-          rgbValues = values.slice(values.length - 1) 
+          rgbValues = values.slice(values.length - 1)
           `var i;
            for(i=0; i< values.length-1; i++)
             values[i] = values[i] / 255
@@ -163,7 +166,7 @@ angular.module('WebGLProject.services').
       constructor: ->
         super('#plane_object')
         @xRot = 90
-        @scaleF = 10
+        @scaleF = 100
         @n = "Plane"
         @color = [0.1419, 0.3101, 0.0953, 1.0]
         @

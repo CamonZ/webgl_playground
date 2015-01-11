@@ -1,5 +1,5 @@
 angular.module('WebGLProject.services').
-  factory('SceneService', (CanvasService, ShadersService, CameraService, ObjectCreationService) ->
+  factory('SceneService', (CanvasService, ShadersService, CameraService, ObjectCreationService, MuseumService) ->
     glContext = CanvasService.glContext()
 
     ARRAY_BUFFER = glContext.ARRAY_BUFFER
@@ -8,7 +8,7 @@ angular.module('WebGLProject.services').
     COLOR_BUFFER_BIT = glContext.COLOR_BUFFER_BIT
     DEPTH_BUFFER_BIT = glContext.DEPTH_BUFFER_BIT
     FLOAT = glContext.FLOAT
-    
+
     @mvMatrix = mat4.create()
     @pMatrix = mat4.create()
     @nMatrix = mat4.create()
@@ -21,13 +21,13 @@ angular.module('WebGLProject.services').
     @zAngle = -180
 
     @service = {}
-    
+
     mvPushMatrix = () =>
       copy = mat4.create()
       mat4.copy(copy, @mvMatrix)
       @mvMatrixStack.push(copy)
       @
-    
+
     mvPopMatrix = () =>
       return if @mvMatrixStack.length == 0
       @mvMatrix = @mvMatrixStack.pop()
@@ -45,26 +45,22 @@ angular.module('WebGLProject.services').
 
       CameraService.initialize(@pMatrix)
       CameraService.perspective()
-      @floor = ObjectCreationService.createObject('plane')
-      @floor.yPos = 0
+      @museum = MuseumService.museum(@.service)
 
       @
     @service.draw = () =>
       glContext.clear(COLOR_BUFFER_BIT | DEPTH_BUFFER_BIT)
 
-      obs = [0, 0, -20]
+      obs = [0, 0, -200]
 
       mat4.identity(@mvMatrix)
       mat4.translate(@mvMatrix, @mvMatrix, obs)
 
       mat4.rotateX(@mvMatrix, @mvMatrix, -degToRad(@xAngle))
       mat4.rotateZ(@mvMatrix, @mvMatrix, -degToRad(@zAngle))
-      
-      mvPushMatrix()
-      @floor.draw({mv: @mvMatrix, p: @pMatrix, n: @nMatrix})
-      mvPopMatrix()
-      
+
       for id, drawable of @drawables
+        console.log('Drawing: ' + drawable.n)
         mvPushMatrix()
         drawable.draw({mv: @mvMatrix, p: @pMatrix, n: @nMatrix})
         mvPopMatrix()
@@ -72,7 +68,7 @@ angular.module('WebGLProject.services').
     @service.updateRotationAngles = (xDiff, yDiff) =>
       @zAngle += CanvasService.xAngleFromDrag(xDiff)
       @zAngle %= 360
-      
+
       @xAngle += CanvasService.zAngleFromDrag(yDiff)
       @xAngle %= 360
 

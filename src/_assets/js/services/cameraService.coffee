@@ -12,24 +12,24 @@ angular.module('WebGLProject.services').
       return radians * 180 / Math.PI
     degToRad = (degrees) ->
       return degrees * Math.PI / 180
-    
+
     @service.initialize = (pMatrix) =>
       @pMatrix = pMatrix
     @service.perspective = () =>
       @type = 'perspective'
       mat4.identity(@pMatrix)
-      mat4.perspective(@pMatrix, degToRad(@fovYInitial + @fovYDiff), CanvasService.aspect(), 0.1, 100)
+      mat4.perspective(@pMatrix, degToRad(@fovYInitial + @fovYDiff), CanvasService.aspect(), 0.1, 1000)
     @service.orthographic = () =>
       @type = 'orthographic'
       mat4.identity(@pMatrix)
-      mat4.ortho(@pMatrix, -15*@orthoZoomFactor, 15*@orthoZoomFactor, -15*@orthoZoomFactor, 15*@orthoZoomFactor, 0.1, 100)
+      mat4.ortho(@pMatrix, -15*@orthoZoomFactor, 15*@orthoZoomFactor, -15*@orthoZoomFactor, 15*@orthoZoomFactor, 0.1, 1000)
     @service.zoom = (step) =>
       if @type is 'perspective'
         @fovYDiff -= step
-        
-        if @fovYDiff < -59 
+
+        if @fovYDiff < -59
           @fovYDiff = -59
-        if @fovYDiff > 119 
+        if @fovYDiff > 119
           @fovYDiff = 119
         @service.perspective()
       else

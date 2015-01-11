@@ -5,7 +5,7 @@ angular.module('WebGLProject.directives', []).
       scope: {},
       replace: false,
       link: (scope, element, attributes) ->
-        
+
         $(element).mousedown( (eventData) =>
           @clicked = true
           @startX = eventData.offsetX
@@ -30,9 +30,8 @@ angular.module('WebGLProject.directives', []).
 
         Hamster(element[0]).wheel(
           (event, delta, deltaX, deltaY) =>
-            console.log('delta:' + delta)
             SceneService.zoomCamera(delta)
         )
-        
+
     }
   )
