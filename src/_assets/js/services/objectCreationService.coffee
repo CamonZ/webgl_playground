@@ -206,6 +206,31 @@ angular.module('WebGLProject.services').
         super('#torus_object')
         @n = 'Torus'
         @color = [0.3477, 0.2305, 0.1192, 1.0]
+    class Boat extends Drawable
+      constructor:  ->
+        super("#boat_object")
+        @n = 'Boat'
+        @color = [0.272, 0.502, 0.812, 1.0]
+    class HazeFish extends Drawable
+      constructor : ->
+        super("#haze_fish_object")
+        @n = 'Haze Fish'
+        @color = [0.7255, 0.6980, 0.5882, 1.0]
+    class OikawaFish extends Drawable
+      constructor : ->
+        super("#oikawa_fish_object")
+        @n = 'Oikawa Fish'
+        @color = [0.2863, 0.3608, 0.3373, 1.0]
+    class OsyoroFish extends Drawable
+      constructor : ->
+        super("#osyoro_fish_object")
+        @n = 'Osyoro Fish'
+        @color = [0.7020, 0.7020, 0.6510, 1.0]
+    class SdozyouFish extends Drawable
+      constructor : ->
+        super("#sdozyou_fish_object")
+        @n = 'Sdozyou Fish'
+        @color = [0.6745, 0.6392, 0.5255, 1.0]
 
     @Drawables = {
       'cube': Cube,
@@ -215,7 +240,12 @@ angular.module('WebGLProject.services').
       'cone': Cone,
       'icosphere': IcoSphere,
       'cylinder': Cylinder,
-      'torus': Torus
+      'torus': Torus,
+      'boat' : Boat,
+      'haze-fish': HazeFish,
+      'oikawa-fish': OikawaFish,
+      'osyoro-fish': OsyoroFish,
+      'sdozyou-fish': SdozyouFish,
     }
 
     @service.createObject = (type, program) =>
@@ -229,7 +259,8 @@ angular.module('WebGLProject.services').
         'cone',
         'icosphere',
         'cylinder',
-        'torus'
+        'torus',
+        'boat'
       ]
     return @service
   )
