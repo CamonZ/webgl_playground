@@ -1,5 +1,5 @@
 angular.module('WebGLProject.services').
-  factory('SceneService', (CanvasService, ShadersService, CameraService, ObjectCreationService, MuseumService) ->
+  factory('SceneService', (CanvasService, ShadersService, CameraService, ObjectCreationService, MuseumService, CustomCameraService) ->
     glContext = CanvasService.glContext()
 
     ARRAY_BUFFER = glContext.ARRAY_BUFFER
@@ -39,6 +39,7 @@ angular.module('WebGLProject.services').
       return degrees * Math.PI / 180
 
     @service.initScene = () =>
+      CustomCameraService.initHTML5Camera()
       glContext.enable(DEPTH_TEST)
       glContext.depthFunc(glContext.LEQUAL)
       glContext.clearColor(0, 0, 0, 1)
