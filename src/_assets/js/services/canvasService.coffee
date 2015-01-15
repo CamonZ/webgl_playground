@@ -1,8 +1,9 @@
 angular.module('WebGLProject.services', []).
   factory('CanvasService', () ->
     @context = null
-    initContext = () =>
-      @canvas = $("canvas")
+    initContext = (selector) =>
+      selector = "canvas#scene_canvas" unless selector?
+      @canvas = $(selector)
       try
         @context = @canvas[0].getContext('experimental-webgl')
 
@@ -15,14 +16,14 @@ angular.module('WebGLProject.services', []).
         @context.viewport(0, 0, w, h)
       catch
         console.error("couldn't get the webgl context") unless @context
-  
+
     radToDeg = (radians) ->
       return radians * 180 / Math.PI
     degToRad = (degrees) ->
       return degrees * Math.PI / 180
     aspectF = () =>
       return @canvas[0].width / @canvas[0].height
-    
+
     return {
       glContext: () =>
         return @context if @context isnt null
@@ -35,7 +36,7 @@ angular.module('WebGLProject.services', []).
       zAngleFromDrag: (diff) =>
         halfWidth = @canvas[0].width / 2
         return ((diff * 180) / halfWidth) * 0.5
-      
+
       updateAspect: (width, height) =>
         @canvas[0].width = width
         @canvas[0].height = height
