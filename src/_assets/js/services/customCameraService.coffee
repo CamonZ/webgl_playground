@@ -7,6 +7,9 @@ angular.module('WebGLProject.services').
       video.width = 320
       video.height = 240
 
+      URL = window.URL || window.webkitURL
+      createObjectURL = URL.createObjectURL || webkitURL.createObjectURL
+
       streamFunc = (stream) ->
           url = createObjectURL(stream)
           video.src = url
